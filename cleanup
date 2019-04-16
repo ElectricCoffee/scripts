@@ -28,7 +28,7 @@ prompt("Do you wish to delete #{matches.count} files? [Y/n] ") do |answer|
     when "y", "yes" then
         # Iterate through the array of matches and remove them
         matches.each do |file| 
-            if !File.directory?(file) then
+            unless File.directory?(file) then
                 File.delete file
                 puts "#{file} has been deleted."
             end
