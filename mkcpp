@@ -2,7 +2,7 @@
 
 # Somewhat counter-intuitively, Ruby's ARGV doesn't include the file name, 
 # so the vector is 1 shorter than normal.
-# Typically writing ./mkcpp.rb foo would give a vector like ARGV = ["mkcpp.rb", "foo"], but not here.
+# Typically writing ./mkcpp.rb foo would give a vector like ARGV = ["mkcpp", "foo"], but not here.
 if ARGV.length < 1 then
     puts "Please provide a sufficient number of arguments"
     exit
