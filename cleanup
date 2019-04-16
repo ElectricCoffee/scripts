@@ -8,7 +8,7 @@ if ARGV.length < 1 then
 end
 
 # Gets all the strings that include the provided identifier(s)
-matches = ARGV.map { |arg| Dir.entries('.').find_all { |str| str.include? arg}}.flatten
+matches = ARGV.flat_map { |arg| Dir.entries('.').find_all { |str| str.include? arg}}
 
 # If no identifiers match, just exit
 if matches.count == 0 then
