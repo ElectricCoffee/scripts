@@ -1,20 +1,23 @@
 #! /usr/bin/ruby
-require './prompt'
+require '~/Scripts/prompt' # absolute path required to work (for some reason)
 
 # Exit early if a file name hasn't been provided
 if ARGV.length < 1 then
-    puts "Please provide an identifier"
+    puts "Please provide at least one identifier"
     exit
 end
 
-# Gets all the strings that include the provided identifier
-matches = Dir.entries('.').find_all { |str| str.include? ARGV[0] }
+# Gets all the strings that include the provided identifier(s)
+matches = ARGV.map { |arg| Dir.entries('.').find_all { |str| str.include? arg}}.flatten
 
 # If no identifiers match, just exit
-exit if matches.count == 0
+if matches.count == 0 then
+    puts "No entries matched the queries #{ARGV}"
+    exit
+end
 
 # Shows the user which files it found
-matches.each do |file|
+for file in matches do
     puts "Found #{file}."
 end
 
