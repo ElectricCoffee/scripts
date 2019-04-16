@@ -1,0 +1,36 @@
+#! /usr/bin/ruby
+require './prompt'
+
+# Exit early if a file name hasn't been provided
+if ARGV.length < 1 then
+    puts "Please provide an identifier"
+    exit
+end
+
+# Gets all the strings that include the provided identifier
+matches = Dir.entries('.').find_all { |str| str.include? ARGV[0] }
+
+# If no identifiers match, just exit
+exit if matches.count == 0
+
+# Shows the user which files it found
+matches.each do |file|
+    puts "Found #{file}."
+end
+
+# Prompt the user for whether or not they wish to delete the files
+prompt("Do you wish to delete #{matches.count} files? [Y/n] ") do |answer|
+    answer.downcase!
+    case answer
+    when "y", "yes" then
+        # Iterate through the array of matches and remove them
+        matches.each do |file| 
+            if !File.directory?(file) then
+                File.delete file
+                puts "#{file} has been deleted."
+            end
+        end
+    else 
+        puts "Okay, nothing's been deleted."
+    end
+end

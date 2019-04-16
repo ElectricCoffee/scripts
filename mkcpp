@@ -1,0 +1,42 @@
+#! /usr/bin/ruby
+
+# Somewhat counter-intuitively, Ruby's ARGV doesn't include the file name, 
+# so the vector is 1 shorter than normal.
+# Typically writing ./mkcpp.rb foo would give a vector like ARGV = ["mkcpp.rb", "foo"], but not here.
+if ARGV.length < 1 then
+    puts "Please provide a sufficient number of arguments"
+    exit
+end
+
+if ARGV[0].eql?("-h") || ARGV[0].eql?("--help") then
+    puts "mkcpp.rb is a tool for generating C++ files with their associated headers"
+    puts "The .cpp files already include the header, and the .hpp files come complete with #ifndef clauses"
+    puts "\nTo use the tool type mkcpp [filename]"
+    exit
+end
+
+# Acquire file name
+filename = ARGV[0]
+
+# Check if file has spaces in its name
+if filename.include? ' ' then
+    puts "'#{filename}' contains spaces, replacing them with underscores."
+    filename.sub! /\s/, '_'
+end
+
+headername = filename.upcase + "_HPP"
+
+# write CPP file
+File.open("./#{filename}.cpp", "w+") do |file|
+    puts "Writing #{filename}.cpp..."
+    file.write "#include \"#{filename}.h\"\n"
+end
+
+# write HPP file
+File.open("./#{filename}.hpp", "w+") do |file|
+    puts "Writing #{filename}.hpp..."
+    file.write "#ifndef #{headername}\n"
+    file.write "#define #{headername}\n"
+    file.write "\n// Your code goes here\n\n"
+    file.write "#endif\n"
+end
