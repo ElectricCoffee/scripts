@@ -89,6 +89,7 @@ for r in recipients do
     mail = Mail.new do
         from "Nikolaj Lepka"
         to r.email
+        cc "slench102@gmail.com"
         subject "Datalogikandidat søger job som #{r.position}"
         body r.mk_email
 
