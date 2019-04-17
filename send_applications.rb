@@ -25,22 +25,25 @@ class Recipient
     ##
     # Writes the intro to the email
     def mk_intro
-        ["Kære #{@name}", "Hej #{@name}", "Goddag, #{@name}"].sample
+        ["Kære ", "Hej ", "Goddag, "].sample + @name
     end
 
     ##
     # Writes the body of the email
     def mk_body
+        skills = @skills.join(', ')
+        skills += ", m.v." if @skills.length > 1
+
         body = "Jeg søger stillingen som #{@position} i jeres virksomhed.\n"
-        body += "Jeg føler min erfaring inden for #{@skills.join(', ')}, m.v. kunne gavne jer.\n" unless @skills.nil?
-        body += "\n#{@extra}\n" unless @extra.nil?
+        body += "Jeg føler min erfaring inden for brugen af #{skills} kunne gavne jer.\n" unless @skills.nil?
+        body += "#{@extra}\n" unless @extra.nil?
         return body
     end
 
     ##
     # Writes the outro of the email
     def mk_outro
-        "\n" + ["Håber jeg hører fra jer.", "Vi ses til jobsamtale :)"].sample + "\n"
+        "\n" + ["Jeg håber vi høres ved.", "Håber jeg hører fra jer.", "Vi ses til jobsamtale :)"].sample + "\n"
     end
 
     ##
@@ -77,9 +80,7 @@ recipients = recipients_all
 
 # add today's date to all the recipients not contacted
 recipients_all.each do |r|
-    if r["contacted"].nil? then
-        r["contacted"] = Date.today
-    end
+    r["contacted"] = Date.today if r["contacted"].nil?
 end
 
 # For each recipient that hasn't already been contacted, build and send the email over Google's SMTP server.
