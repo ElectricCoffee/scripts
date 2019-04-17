@@ -3,6 +3,11 @@ require 'mail'
 require 'yaml'
 require 'date'
 
+# You must supply these yourself.
+MAILFILES = "mail_files"
+MAILINFO = "#{MAILFILES}/mailinfo.yml"
+RECIPIENTS = "#{MAILFILES}/recipients.yml"
+
 ##
 # Holds all the recipient info in a single class and provides all the necessary functions to make an email
 class Recipient
@@ -59,11 +64,11 @@ end
 
 # set the delivery method to SMTP and load the relevant settings from mailinfo.yml
 Mail.defaults do
-    delivery_method :smtp, YAML.load_file("mail_files/mailinfo.yml")
+    delivery_method :smtp, YAML.load_file(MAILINFO)
 end
 
 # Load the recipients from yaml
-recipients_all = YAML.load_file('mail_files/recipients.yml')
+recipients_all = YAML.load_file(RECIPIENTS)
 
 # get only the recipients not contacted
 recipients = recipients_all
@@ -86,8 +91,8 @@ for r in recipients do
         subject "Datalogikandidat søger job som #{r.position}"
         body r.mk_email
 
-        add_file "./mail_files/CV.pdf"
-        add_file "./mail_files/karakterark.pdf"
+        add_file "#{MAILFILES}/CV.pdf"
+        add_file "#{MAILFILES}/karakterark.pdf"
     end
 
     mail.charset = 'UTF-8' # this doesn't work for some reason...
@@ -95,6 +100,6 @@ for r in recipients do
 end
 
 # Once everything's done, write the edited yaml file back into recipients.yml
-File.open('recipients.yml', 'w') do |f|
+File.open(RECIPIENTS, 'w') do |f|
     f.write(recipients_all.to_yaml)
 end
