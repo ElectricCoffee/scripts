@@ -8,7 +8,7 @@ if ARGV.length < 1 then
 end
 
 # Gets all the strings that include the provided identifier(s)
-matches = ARGV.flat_map { |arg| Dir.entries('.').find_all { |str| str.include? arg}}
+matches = ARGV.flat_map { |arg| Dir.entries('.').find_all { |str| str.include? arg }}
 
 # If no identifiers match, just exit
 if matches.count == 0 then
@@ -17,7 +17,7 @@ if matches.count == 0 then
 end
 
 # Shows the user which files it found
-for file in matches do
+matches.each do |file|
     puts "Found #{file}."
 end
 
@@ -33,7 +33,5 @@ prompt("Do you wish to delete #{matches.count} files? [Y/n] ") do |answer|
                 puts "#{file} has been deleted."
             end
         end
-    else 
-        puts "Okay, nothing's been deleted."
-    end
+    else puts "Okay, nothing's been deleted."
 end
