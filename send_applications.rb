@@ -65,13 +65,25 @@ class Recipient
     end
 end
 
+# Kills the program execution if the yaml files can't be found
+def handle_yaml(filename, &block) 
+    filedata = YAML.load_file(filename)
+rescue Errno::ENOENT
+    puts "The file with the file name #{filename} could not be found. Aborting."
+    exit
+else
+    block_given? ? block.call(filedata) : filedata
+end
+
 # set the delivery method to SMTP and load the relevant settings from mailinfo.yml
-Mail.defaults do
-    delivery_method :smtp, YAML.load_file(MAILINFO)
+handle_yaml(MAILINFO) do |config|
+    Mail.defaults do
+        delivery_method :smtp, config
+    end
 end
 
 # Load the recipients from yaml
-recipients_all = YAML.load_file(RECIPIENTS)
+recipients_all = handle_yaml(RECIPIENTS)
 
 # get only the recipients not contacted
 recipients = recipients_all
