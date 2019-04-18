@@ -2,4 +2,6 @@
 
 filename = ARGV.length > 0 ? ARGV[0] : ""
 
-Dir.entries('.').find_all { |file| file.include? filename }.each { |file| puts file }
+Dir.entries('.')
+    .find_all { |file| file.include? filename }
+    .each { |file| puts file }

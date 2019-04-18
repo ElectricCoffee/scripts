@@ -76,7 +76,7 @@ recipients_all = YAML.load_file(RECIPIENTS)
 # get only the recipients not contacted
 recipients = recipients_all
     .map { |r| Recipient.new r }
-    .find_all { |r| r.contacted.nil? }
+    .select { |r| r.contacted.nil? }
 
 # add today's date to all the recipients not contacted
 recipients_all.each do |r|
