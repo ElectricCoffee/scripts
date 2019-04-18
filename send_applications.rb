@@ -49,7 +49,7 @@ class Recipient
     ##
     # Generates a random sender line
     def mk_sender
-        ["-- ", "Med kærlig hilsen, ", "Med venlig hilsen, ", "MVH, ", "Hilsen "]. sample + "Nikolaj Lepka\n" +
+        ["-- ", "Med kærlig hilsen, ", "Med venlig hilsen, ", "MVH, ", "Hilsen "].sample + "Nikolaj Lepka\n" +
         "Telefon: 25 14 66 83\n" +
         "Email: slench102@gmail.com\n" +
         "Github: https://github.com/ElectricCoffee\n" +
