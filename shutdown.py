@@ -21,6 +21,7 @@ def remove_none(iterable, replacement = ""):
 
 def parse_input(text):
     """Parses the input from console and returns the time in seconds"""
+    # This step will be simplified in Python 3.8 when the := syntax gets stabilised
     verbose = verbose_regex.match(text)
     simple = short_regex.match(text)
 
