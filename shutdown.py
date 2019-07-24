@@ -2,8 +2,12 @@
 import re, subprocess, operator
 from functools import reduce
 
+# matches queries of the format [<number> hours] [,] [and] [<number> minutes] [,] [and] <number> [seconds]
 verbose_regex = re.compile(r"^(\d+\s*hours?)?\s*(?:,|and|, and)?\s*(\d+\s+?minutes?)?\s*(?:,|and|, and)?\s*(\d+\s*(?:seconds?)?)?$", re.I)
+# matches queries of the format [[hh:]mm:]ss
 short_regex = re.compile(r"(?:(?:(\d{2}:)?(\d{2}:))?(\d{2}))$")
+# TODO: add ability to shutdown at absolute hour
+#abs_regex = re.compile(r"@(?:(?:(\d{2}:)?(\d{2}:))?(\d{2}))$")
 
 def filter_number(text):
     """Filters a number out of a string"""
