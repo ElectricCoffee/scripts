@@ -47,3 +47,7 @@ while True:
     if not parsed:
         continue
     # command to run: `shutdown -s -t parsed`
+    cmd = 'shutdown /s /t ' + str(parsed)
+    print("Running ", cmd)
+    subprocess.Popen(cmd.split(), stdout = subprocess.PIPE)
+    break
