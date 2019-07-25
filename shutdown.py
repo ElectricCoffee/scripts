@@ -31,7 +31,6 @@ def parse_input(text: str) -> Optional[int]:
     elif simple: 
         groups = simple.groups()
     else:
-        print(f'The string "{text}" is not a valid time')
         return None
 
     withoutNone = remove_none(iter(groups), "0")
@@ -51,6 +50,7 @@ while True:
 
     parsed = parse_input(text)
     if not parsed:
+        print(f'The string "{text}" is not a valid time')
         continue
     
     system = platform.system()
