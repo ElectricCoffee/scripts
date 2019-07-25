@@ -75,4 +75,9 @@ while True:
     
     print("Running", cmd)
     subprocess.Popen(cmd.split(), stdout = subprocess.PIPE)
+    
+    # On Windows, keep the terminal window open
+    if system == 'Windows':
+        input("Press any key to continue...")
+
     break
