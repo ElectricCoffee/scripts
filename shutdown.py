@@ -62,7 +62,7 @@ while True:
         cmd = f'sudo shutdown -h -t {parsed}'
 
     elif system == 'Darwin': # shutdown on OSX doesn't run on seconds
-        print("Converting to nearest minutes")
+        print('Converting to nearest minutes')
         time = parsed // 60
         # add extra minute in case it's not in whole minutes
         if parsed % 60 > 0:
@@ -70,14 +70,14 @@ while True:
         cmd = f'sudo shutdown -h +{time}'
 
     else:
-        print(f"Script not supported on {system}.")
+        print(f'Script not supported on {system}.')
         break
     
-    print("Running", cmd)
+    print('Running', cmd)
     subprocess.Popen(cmd.split(), stdout = subprocess.PIPE)
     
     # On Windows, keep the terminal window open
     if system == 'Windows':
-        input("Press any key to continue...")
+        input('Press any key to continue...')
 
     break
