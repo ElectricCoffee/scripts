@@ -14,6 +14,8 @@ def filter_number(text: str) -> int:
     """Filters a number out of a string"""
     lst = [i for i in text if str.isdigit(i)]
     txt = reduce(operator.add, lst, '')
+
+    assert txt != '', 'Make sure the input contains a number!'
     return int(txt)
 
 def remove_none(iterable: Iterator[Optional[str]], replacement = "") -> Iterator[str]:
