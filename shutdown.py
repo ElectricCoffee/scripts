@@ -1,5 +1,5 @@
 ## shutdown script ##
-import re, subprocess, operator
+import re, subprocess, operator, platform
 from functools import reduce
 from typing import Iterator, List, Optional
 
@@ -52,8 +52,27 @@ while True:
     parsed = parse_input(text)
     if not parsed:
         continue
-    # command to run: `shutdown -s -t parsed`
-    cmd = f'shutdown /s /t {parsed}'
-    print("Running ", cmd)
+    
+    system = platform.system()
+
+    if system == 'Windows':
+        cmd = f'shutdown /s /t {parsed}'
+
+    elif system == 'Linux':
+        cmd = f'sudo shutdown -h -t {parsed}'
+
+    elif system == 'Darwin': # shutdown on OSX doesn't run on seconds
+        print("Converting to nearest minutes")
+        time = parsed // 60
+        # add extra minute in case it's not in whole minutes
+        if parsed % 60 > 0:
+            time += 1
+        cmd = f'sudo shutdown -h +{time}'
+
+    else:
+        print(f"Script not supported on {system}.")
+        break
+    
+    print("Running", cmd)
     subprocess.Popen(cmd.split(), stdout = subprocess.PIPE)
     break
