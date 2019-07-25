@@ -16,7 +16,7 @@ def filter_number(text: str) -> int:
     txt = reduce(operator.add, lst, '')
     return int(txt)
 
-def remove_none(iterable: Iterator[str], replacement = "") -> Iterator[str]:
+def remove_none(iterable: Iterator[Optional[str]], replacement = "") -> Iterator[str]:
     """Removes None from an iterable and replaces it with `replacement`. Returns a map object"""
     return map(lambda s: s if s else replacement, iterable)
 
