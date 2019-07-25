@@ -1,6 +1,7 @@
 ## shutdown script ##
 import re, subprocess, operator
 from functools import reduce
+from typing import Iterator, List, Optional
 
 # matches queries of the format [<number> hours] [,] [and] [<number> minutes] [,] [and] <number> [seconds]
 verbose_regex = re.compile(r"^(\d+\s*hours?)?\s*(?:,|and|, and)?\s*(\d+\s+?minutes?)?\s*(?:,|and|, and)?\s*(\d+\s*(?:seconds?)?)?$", re.I)
@@ -9,17 +10,17 @@ short_regex = re.compile(r"(?:(?:(\d{2}:)?(\d{2}:))?(\d{2}))$")
 # TODO: add ability to shutdown at absolute hour
 #abs_regex = re.compile(r"@(?:(?:(\d{2}:)?(\d{2}:))?(\d{2}))$")
 
-def filter_number(text):
+def filter_number(text: str) -> int:
     """Filters a number out of a string"""
     lst = [i for i in text if str.isdigit(i)]
     txt = reduce(operator.add, lst, '')
     return int(txt)
 
-def remove_none(iterable, replacement = ""):
+def remove_none(iterable: Iterator[str], replacement = "") -> Iterator[str]:
     """Removes None from an iterable and replaces it with `replacement`. Returns a map object"""
     return map(lambda s: s if s else replacement, iterable)
 
-def parse_input(text):
+def parse_input(text: str) -> Optional[int]:
     """Parses the input from console and returns the time in seconds"""
     # This step will be simplified in Python 3.8 when the := syntax gets stabilised
     verbose = verbose_regex.match(text)
@@ -30,10 +31,10 @@ def parse_input(text):
     elif simple: 
         groups = simple.groups()
     else:
-        print("The string", text, "is not a valid time")
+        print(f'The string "{text}" is not a valid time')
         return None
 
-    withoutNone = remove_none(groups, "0")
+    withoutNone = remove_none(iter(groups), "0")
     digits = tuple(map(filter_number, withoutNone))
     return digits[0] * 3600 + digits[1] * 60 + digits[2]
 
@@ -52,7 +53,7 @@ while True:
     if not parsed:
         continue
     # command to run: `shutdown -s -t parsed`
-    cmd = 'shutdown /s /t ' + str(parsed)
+    cmd = f'shutdown /s /t {parsed}'
     print("Running ", cmd)
     subprocess.Popen(cmd.split(), stdout = subprocess.PIPE)
     break
