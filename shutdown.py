@@ -41,12 +41,12 @@ def parse_input(text: str) -> Optional[int]:
 while True:
     text = input("Shut down in ")
 
-    if text == "help" or text == "?":
+    if text in ["help", "?"]:
         print("Type the time you wish the computer to shut down. These are your options:")
         print("[<number> hours] [<number> minutes] <number> [seconds]")
         print("[[hh:]mm:]ss")
         continue
-    elif text == "q" or text == "quit" or text == "exit":
+    elif text in ["q", "quit", "exit"]:
         break
 
     parsed = parse_input(text)
