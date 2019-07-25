@@ -8,7 +8,7 @@ if ARGV.length < 1 then
     exit
 end
 
-if ARGV[0] == "-h" || ARGV[0] == "--help" then
+if ["-h", "--help"].include? ARGV[0] then
     puts "mkcpp.rb is a tool for generating C++ files with their associated headers"
     puts "The .cpp files already include the header, and the .hpp files come complete with #ifndef clauses"
     puts "\nTo use the tool type mkcpp [filename]"
